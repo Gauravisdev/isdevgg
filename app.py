@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 GITHUB_TOKEN = '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'
-GITHUB_REPO = 'Gaurav/isadevg'  # Replace with your actual repo
+GITHUB_REPO = 'Gauravisdev/isadevg'  # Replace with your actual repo
 GITHUB_BRANCH = 'main'  # Replace with the branch used for GitHub Pages
 GITHUB_API_URL = f'https://api.github.com/repos/{GITHUB_REPO}/contents/'
 
