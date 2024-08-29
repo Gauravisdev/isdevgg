@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Share Files</title>
+</head>
+<body>
+    <h1>Upload File to GitHub Pages</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="fileInput" name="file">
+        <button type="submit">Upload</button>
+    </form>
+    <div id="fileLink"></div>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const file = document.getElementById('fileInput').files[0];
+            formData.append('file', file);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            if (data.url) {
+                document.getElementById('fileLink').innerHTML = `<a href="${data.url}" target="_blank">${data.url}</a>`;
+            } else {
+                document.getElementById('fileLink').innerText = 'Error: ' + data.error;
+            }
+        });
+    </script>
+</body>
+</html>
