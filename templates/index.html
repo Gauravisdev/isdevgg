@@ -3,33 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload and Share Files</title>
+    <meta name="description" content="Bypass Rn - Bypass ad links easily and quickly.">
+    <meta name="keywords" content="Bypass, Ad Links, URL Shortener, Link Bypass">
+    <meta name="author" content="Chandsi">
+    <meta property="og:title" content="Bypass Rn">
+    <meta property="og:description" content="Bypass Rn helps you bypass ad links easily and quickly.">
+    <meta property="og:image" content="https://example.com/your-image.jpg">
+    <meta property="og:url" content="https://bypassrn.is-a.dev">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bypass Rn">
+    <meta name="twitter:description" content="Bypass Rn helps you bypass ad links easily and quickly.">
+    <meta name="twitter:image" content="https://example.com/your-image.jpg">
+    <meta name="twitter:url" content="https://bypassrn.is-a.dev">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#000000">
+    <title>Bypass Rn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.7);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        .title {
+            font-size: 2.5rem;
+            color: #00BFFF;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: glow 1.5s infinite alternate;
+        }
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px rgba(0, 191, 255, 0.5), 0 0 20px rgba(0, 191, 255, 0.5), 0 0 30px rgba(0, 191, 255, 0.5), 0 0 40px rgba(0, 191, 255, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(0, 191, 255, 0.7), 0 0 25px rgba(0, 191, 255, 0.7), 0 0 35px rgba(0, 191, 255, 0.7), 0 0 45px rgba(0, 191, 255, 0.7);
+            }
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+        .button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background-color: #00BFFF;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .button:hover {
+            background-color: #00A3E0;
+        }
+        .button-secondary {
+            background-color: #333;
+            margin-top: 5px;
+        }
+        .button-secondary:hover {
+            background-color: #444;
+        }
+        .result-container, .supported-adlinks {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+            word-wrap: break-word;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        .result-container.active, .supported-adlinks.active {
+            display: block;
+        }
+        .result-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #00BFFF;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            color: #FF6347;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.875rem;
+            color: #aaa;
+            text-align: center;
+        }
+        .footer a {
+            color: #00BFFF;
+            text-decoration: none;
+        }
+        .spinner {
+            display: none;
+            border: 4px solid #fff;
+            border-top: 4px solid #00BFFF;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload File to GitHub Pages</h1>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" id="fileInput" name="file">
-        <button type="submit">Upload</button>
-    </form>
-    <div id="fileLink"></div>
+    <div class="container">
+        <h2 class="title">Bypass Rn</h2>
+        <input type="text" id="linkInput" class="input-field" placeholder="Enter link here" aria-label="Link input">
+        <button class="button" onclick="bypassLink()">Bypass Link</button>
+        <button class="button button-secondary" onclick="toggleSupportedAdlinks()">Show Supported Adlinks</button>
+        <div id="spinner" class="spinner"></div>
+        <div id="result" class="result-container"></div>
+        <div id="supportedAdlinks" class="supported-adlinks"></div>
+        <div class="footer">&copy; 2024 <a href="https://bypassrn.is-a.dev" target="_blank">Bypass Rn</a>. All rights reserved.</div>
+    </div>
     <script>
-        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData();
-            const file = document.getElementById('fileInput').files[0];
-            formData.append('file', file);
+        function isValidURL(string) {
+            const res = string.match(/(https?:\/\/[^\s]+)/g);
+            return (res !== null);
+        }
 
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-            if (data.url) {
-                document.getElementById('fileLink').innerHTML = `<a href="${data.url}" target="_blank">${data.url}</a>`;
+        function bypassLink() {
+            const link = document.getElementById('linkInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            const spinner = document.getElementById('spinner');
+            resultDiv.classList.remove('active');
+            resultDiv.innerHTML = '';
+
+            if (link && isValidURL(link)) {
+                spinner.classList.add('active');
+                fetch(`https://et.goatbypassers.xyz/api/adlinks/bypass?url=${encodeURIComponent(link)}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        spinner.classList.remove('active');
+                        if (data.bypassed) {
+                            const isValidResultURL = isValidURL(data.bypassed);
+                            resultDiv.innerHTML = `
+                                <div class="result-header">Result:</div>
+                                <div class="result-content">${data.bypassed}</div>
+                                <div class="button-group">
+                                    <button class="button" onclick="copyToClipboard('${data.bypassed}')">Copy</button>
+                                    ${isValidResultURL ? `<button class="button" onclick="openURL('${data.bypassed}')">Open URL</button>` : ''}
+                                </div>
+                            `;
+                        } else {
+                            resultDiv.innerHTML = `<strong class="error-message">Error:</strong> Failed to bypass the link.`;
+                        }
+                        resultDiv.classList.add('active');
+                    })
+                    .catch(error => {
+                        spinner.classList.remove('active');
+                        resultDiv.innerHTML = `<strong class="error-message">Error:</strong> Unable to connect to the API. ${error.message}`;
+                        resultDiv.classList.add('active');});
             } else {
-                document.getElementById('fileLink').innerText = 'Error: ' + data.error;
+                resultDiv.innerHTML = `<strong class="error-message">Error:</strong> Please enter a valid link.`;
+                resultDiv.classList.add('active');
             }
-        });
+        }
+
+        function toggleSupportedAdlinks() {
+            const supportedAdlinksDiv = document.getElementById('supportedAdlinks');
+            if (supportedAdlinksDiv.classList.contains('active')) {
+                supportedAdlinksDiv.classList.remove('active');
+            } else {
+                const supportedAdlinks = [
+                    "Linkvertise (all domains)",
+                    "Linkvertise Dynamic",
+                    "Rekonise",
+                    "MBoost",
+                    "Boost.ink",
+                    "Sub2Get",
+                    "SocialWolvez",
+                    "v.gd",
+                    "tinyurl.com",
+                    "rebrand.ly",
+                    "is.gd",
+                    "tinylink.onl",
+                    "Valyse Authentication System",
+                    "Codex Authentication System",
+                    "MediaFire (direct download link)",
+                    "AdMaven (LootLinks, LootLabs, etc)",
+                    "Social-Unlock.com",
+                    "AdFly",
+                    "Shorte.st",
+                    "Short.cm",
+                    "Short.io",
+                    "Bit.ly",
+                    "T2M.io",
+                    "Ouo.io",
+                    "Geniuslink",
+                    "Sniply",
+                    "Elink",
+                    "ClickMeter",
+                    "Cutt.ly",
+                    "Linkly",
+                    "Tiny.cc"
+                ];
+
+                supportedAdlinksDiv.innerHTML = `
+                    <div class="result-header">Supported Adlinks:</div>
+                    <ul>
+                        ${supportedAdlinks.map(link => `<li>${link}</li>`).join('')}
+                    </ul>
+                `;
+                supportedAdlinksDiv.classList.add('active');
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy link: ' + err);
+            });
+        }
+
+        function openURL(url) {
+            window.open(url, '_blank');
+        }
     </script>
 </body>
 </html>
